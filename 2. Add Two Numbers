@@ -1,0 +1,78 @@
+/*
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example
+
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807.
+ */
+
+
+import java.math.BigInteger;
+
+/*
+把链表转换成BigInteger相加,然后再转换成链表
+*/
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        BigInteger num = listNodeToBigInteger(l1).add(listNodeToBigInteger(l2));
+        return BigIntegerToListNode(num);
+    }
+
+    public BigInteger listNodeToBigInteger(ListNode listNode) {
+        BigInteger num = BigInteger.valueOf(0);
+        BigInteger multiplier = BigInteger.valueOf(1);
+        while (listNode != null) {
+            num = num.add(multiplier.multiply(BigInteger.valueOf(listNode.val)));//num += listNode.val * multiplier;
+            multiplier = multiplier.multiply(BigInteger.valueOf(10));// multiplier *= 10;
+            listNode = listNode.next;
+        }
+        return num;
+    }
+
+    public ListNode BigIntegerToListNode(BigInteger number) {
+        if (number.equals(BigInteger.valueOf(0))) {//number == 0
+            return new ListNode(0);
+        } else {
+            ListNode firstNode = null;
+            ListNode lastNode = null;
+            while (!number.equals(BigInteger.valueOf(0))) {//number != 0
+                int val = number.mod(BigInteger.valueOf(10)).intValue();//long val = number % 10;
+                if (firstNode == null) {
+                    firstNode = new ListNode(val);
+                    lastNode = firstNode;
+                } else {
+                    lastNode.next = new ListNode(val);
+                    lastNode = lastNode.next;
+                }
+                number = number.divide(BigInteger.valueOf(10));//number /= 10;
+            }
+            return firstNode;
+        }
+    }
+
+    public static void main(String[] args) {
+        ListNode first = new ListNode(9);
+        ListNode second = new ListNode(1, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9,
+                new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9))))))))));
+        new Solution().addTwoNumbers(first, second);
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x, ListNode next) {
+        val = x;
+        this.next = next;
+    }
+
+    ListNode(int x) {
+        val = x;
+    }
+}
