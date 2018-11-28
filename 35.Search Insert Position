@@ -1,0 +1,11 @@
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            //目标和遍历的值相等或者更小,说明就是要返回的index,比遍历的值大,则需要继续遍历
+            if (nums[i] >= target) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+}
