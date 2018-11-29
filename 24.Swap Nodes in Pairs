@@ -1,0 +1,28 @@
+//用一个pointerToHead记录链表的头,用cur记录要操作的后2个节点
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        ListNode pointerToHead = new ListNode(0);
+        pointerToHead.next = head;
+        ListNode cur = pointerToHead;
+        while (cur.next != null && cur.next.next != null) {
+            ListNode first = cur.next;
+            ListNode second = cur.next.next;
+            //交换每个节点next的指向
+            cur.next = second;
+            first.next = second.next;
+            second.next = first;
+            //cur向后走2个节点
+            cur = first;
+        }
+        return pointerToHead.next;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
