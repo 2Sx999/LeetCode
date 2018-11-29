@@ -2,17 +2,14 @@
 //当快的追上慢的就表名是有环的,走得快的遇到null说明无环
 class Solution {
     public boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return false;
-        }
-        ListNode fast = head.next;
+        ListNode fast = head;
         ListNode slow = head;
         while (fast != null && fast.next != null) {
-            if (fast.val == slow.val) {
-                return true;
-            }
             fast = fast.next.next;
             slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
         }
         return false;
     }
