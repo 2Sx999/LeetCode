@@ -1,0 +1,60 @@
+/*
+141.Linked List Cycle的解法为基础
+
+解法的思路地址:
+https://leetcode.com/problems/linked-list-cycle-ii/discuss/44848/Java-solution-without-extra-space-with-explanation
+
+
+First Step:
+Assume the first pointer runs from head at a speed of 1-by-1 step, as S,
+    and the second pointer runs at a speed of 2-by-2 step, as 2S,
+    then two pointers will meet at MEET-POINT, using the same time.
+Define outer loop is A, the distance from CIRCLE-START-POINT to MEET-POINT is B,
+    and the distance from MEET-POINT to CIRCLE-START-POINT is C (Apparently, C=loop-B),
+    then (n*loop+a+b)/2S = (a+b)/S, n=1,2,3,4,5,....
+
+Converting that equation can get A/S=n*loop/S-B/S. Since C=loop-B, get A/S = ((n-1)loop+C)/S.
+
+That means, as second step, assuming a pointer running from head and another pointer running from MEET-POINT both at a speed S will meet at CIRCLE-START-POINT;
+
+    (CIRCLE-START-POINT)
+            |
+-------A----@----------------
+            |               |
+            |               |
+            C               B
+            |               |
+            |-------@-------|
+                    |
+               (MEET-POINT)
+
+结论就是a到环的起点和c到环的起点的距离是一样的
+ */
+class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                ListNode slow1 = head;
+                while (slow != slow1) {
+                    slow = slow.next;
+                    slow1 = slow1.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
