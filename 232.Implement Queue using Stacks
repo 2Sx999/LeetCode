@@ -1,0 +1,41 @@
+import java.util.Stack;
+
+//all operations are valid (for example, no pop or peek operations will be called on an empty queue)
+class MyQueue {
+    private Stack<Integer> stackForPush = new Stack<>();
+    private Stack<Integer> stackForPop = new Stack<>();
+    private int peekValue;
+
+    public MyQueue() {
+
+    }
+
+    public void push(int x) {
+        if (stackForPush.empty()) {
+            peekValue = x;
+        }
+        stackForPush.push(x);
+    }
+
+    public int pop() {
+        if (stackForPop.empty()) {
+            //move elements from 'stackForPush' to 'stackForPop'
+            while (!stackForPush.empty()) {
+                stackForPop.push(stackForPush.pop());
+            }
+        }
+        return stackForPop.pop();
+    }
+
+    public int peek() {
+        //return peek of 'stackForPop' as peek of the queue,otherwise return 'peekValue'
+        if (!stackForPop.empty()) {
+            return stackForPop.peek();
+        }
+        return peekValue;
+    }
+
+    public boolean empty() {
+        return stackForPush.empty() && stackForPop.empty();
+    }
+}
