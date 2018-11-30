@@ -28,7 +28,6 @@ That means, as second step, assuming a pointer running from head and another poi
                     |
                (MEET-POINT)
 
-结论就是a到环的起点和c到环的起点的距离是一样的
  */
 class Solution {
     public ListNode detectCycle(ListNode head) {
