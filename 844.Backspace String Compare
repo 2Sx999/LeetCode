@@ -1,0 +1,41 @@
+import java.util.EmptyStackException;
+import java.util.Stack;
+
+class Solution {
+    public boolean backspaceCompare(String S, String T) {
+        Stack<Character> stackS = new Stack<>();
+        Stack<Character> stackT = new Stack<>();
+        for (Character c : S.toCharArray()) {
+            if (c.equals('#')) {
+                //backspace
+                if (!stackS.isEmpty()) {
+                    stackS.pop();
+                }
+            } else {
+                stackS.push(c);
+            }
+        }
+        for (Character c : T.toCharArray()) {
+            if (c.equals('#')) {
+                //backspace
+                if (!stackT.isEmpty()) {
+                    stackT.pop();
+                }
+            } else {
+                stackT.push(c);
+            }
+        }
+        //pop eack elements in both stack,and compare corresponding elements
+        while (!stackS.isEmpty() || !stackT.isEmpty()) {
+            try {
+                if (!stackS.pop().equals(stackT.pop())) {
+                    return false;
+                }
+            } catch (EmptyStackException e) {
+                //one of two stacks is empty,which means that their length are different,so return false
+                return false;
+            }
+        }
+        return true;
+    }
+}
