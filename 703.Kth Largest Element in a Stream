@@ -1,0 +1,32 @@
+import java.util.*;
+
+class KthLargest {
+    private PriorityQueue<Integer> priorityQueue;
+    private int k;
+
+    public KthLargest(int k, int[] nums) {
+        this.k = k;
+        priorityQueue = new PriorityQueue<>();
+        for (Integer i : nums) {
+            add(i);
+        }
+    }
+
+    public int add(int val) {
+        if (priorityQueue.size() < k) {
+            //队列还没满,直接加入
+            priorityQueue.offer(val);
+        } else if (val > priorityQueue.peek()) {
+            //队列满了,val比队列中最小的大,就把最小的移除,在把val加入
+            priorityQueue.poll();
+            priorityQueue.offer(val);
+        }
+        return priorityQueue.peek();
+    }
+}
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest obj = new KthLargest(k, nums);
+ * int param_1 = obj.add(val);
+ */
